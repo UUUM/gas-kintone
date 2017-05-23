@@ -64,6 +64,29 @@ rm client_secret.json
 npm run deploy
 ```
 
+# テスト用 Kintone アプリ
+
+## アプリを作る
+
+KintoneLib のテスト用の適当な Kintone アプリを作成します。
+
+フォームに `文字列(1行)` のカラムを追加します。
+フィールドコードを `one_line_text` に変更します。
+
+## APIトークンの生成
+
+APIトークンを生成します。
+全ての権限を付与してください。
+
+## Kintone アプリの設定を Google Apps Script に追加
+
+Google Apps Script の `Project properties` に次の項目を追加します。
+
+```
+KintoneTestApiToken: さっき作った Kintone の APIトークン
+KintoneTestAppId: Kintone テストアプリの id
+```
+
 # 開発の進め方
 
 ## コードチェック
