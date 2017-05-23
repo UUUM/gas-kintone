@@ -1,0 +1,3 @@
+[submodule "vendor/gast"]
+	path = vendor/gast
+	url = git@github.com:zixia/gast.git
