@@ -21,6 +21,9 @@ npm install
 
 Google Drive で任意の Google Apps Script のファイルを作ります。
 
+`Code.gs` を `testRunner.gs` に名前を変更します。
+この作業をしないと testRunner.gs が先に読み込まれず、テストが失敗します。
+
 ## gapps.config.json を作る
 
 gapps.config.json.sample を gapps.config.json にコピーします。
