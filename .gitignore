@@ -3,6 +3,6 @@
 .DS_Store
 
 /client_secret.json
-/gapps.config.json.sample
+/gapps.config.json
 /node_modules
 /npm-debug.log
