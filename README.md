@@ -2,6 +2,17 @@
 
 Google Apps Script 用の Kintone ライブラリです。
 
+# 使い方
+
+## ライブラリとして追加する
+
+使いたい Google Apps Script のプロジェクトにライブラリとして追加するだけで使えます。
+ライブラリの追加方法( https://developers.google.com/apps-script/guide_libraries )
+
+```
+Script ID: 1-Dlw6bRJOH65e2XwrimFwwFn9vHMa5m1PS6E_2_kMcC99Hxm1Nm7nFkt
+```
+
 # 開発環境構築
 
 ## submodule の追加
