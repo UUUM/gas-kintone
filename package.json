@@ -1,0 +1,24 @@
+{
+  "description": "google apps script kintone library",
+  "scripts": {
+    "auth": "gapps auth client_secret.json",
+    "check": "npm run lint",
+    "clean": "true",
+    "deploy": "gapps upload",
+    "distclean": "npm run clean && rimraf node_modules",
+    "lint": "eslint src test *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:UUUM/gas-kintone.git"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb-es5": "^1.1.0",
+    "eslint-plugin-react": "^6.10.0",
+    "node-google-apps-script": "^1.1.5",
+    "rimraf": "^2.6.1"
+  }
+}

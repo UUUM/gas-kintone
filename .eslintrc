@@ -1,0 +1,20 @@
+{
+  globals: {
+    // Google Apps Script
+    PropertiesService: true,
+    UrlFetchApp: true,
+
+    // Test Library
+    GasTap: true,
+
+    // Our classes
+    Kintone: true,
+    KintoneClient: true,
+    KintoneError: true,
+    KintoneResponse: true,
+
+    // test function
+    testRunner: true,
+  },
+  extends: 'airbnb-es5',
+}

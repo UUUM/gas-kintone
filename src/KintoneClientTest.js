@@ -1,0 +1,165 @@
+testRunner.functions.push(function (test) {
+  var subdomain;
+  var appId;
+  var apiToken;
+  var client;
+
+  function setup() {
+    var properties = PropertiesService.getScriptProperties();
+    subdomain = 'uuum';
+    appId = parseInt(properties.getProperty('KintoneTestAppId'), 10);
+    apiToken = properties.getProperty('KintoneTestApiToken');
+    client = new KintoneClient(subdomain, appId, apiToken);
+  }
+
+  test('new KintoneClient()', function (assert) {
+    setup();
+
+    assert.throws(
+      function () {
+        return new KintoneClient(1, appId, apiToken);
+      },
+      'throws an exception if subdomain was not a string'
+    );
+
+    assert.throws(
+      function () {
+        return new KintoneClient('', appId, apiToken);
+      },
+      'throws an exception if subdomain was an empty string'
+    );
+
+    assert.throws(
+      function () {
+        return new KintoneClient(subdomain, 'appId', apiToken);
+      },
+      'throws an exception if appId was not a number'
+    );
+
+    assert.throws(
+      function () {
+        return new KintoneClient(subdomain, 0, apiToken);
+      },
+      'throws an exception if appId was not a positive integer'
+    );
+
+    assert.throws(
+      function () {
+        return new KintoneClient(subdomain, appId, 1);
+      },
+      'throws an exception if apiToken was not a string'
+    );
+
+    assert.throws(
+      function () {
+        return new KintoneClient(subdomain, appId, '');
+      },
+      'throws an exception if apiToken was an empty string'
+    );
+
+    client = new KintoneClient(subdomain, appId, apiToken);
+    assert.ok(client instanceof KintoneClient, 'creates KintoneClient object with a valid argument');
+    assert.equal(client.subdomain, subdomain, 'has a subdomain property');
+    assert.equal(client.appId, appId, 'has a appId property');
+    assert.equal(client.apiToken, apiToken, 'has an apiToken property');
+    assert.deepEqual(client.params, {app: appId}, 'has a valid default parameters');
+    assert.deepEqual(
+      client.option,
+      {
+        contentType: 'application/json',
+        headers: { 'X-Cybozu-API-Token': apiToken },
+        muteHttpExceptions: true
+      },
+      'has a valid default option'
+    );
+  });
+
+  test('KintoneClient.createQueryString()', function (assert) {
+    setup();
+
+    var queryString = client.createQueryString({});
+    assert.equal(queryString, '', 'returns an empty string with no parameters');
+
+    queryString = client.createQueryString({foo: 'bar', bar: 'baz'});
+    assert.equal(queryString, 'foo=bar&bar=baz', 'returns a query string');
+
+    queryString = client.createQueryString({foo: 'bar', ids: [1, 2]});
+    assert.equal(queryString, 'foo=bar&ids%5B0%5D=1&ids%5B1%5D=2', 'returns an array query string');
+  });
+
+  test('KintoneClient.fetch() with an invalid apiToken', function (assert) {
+    setup();
+
+    client = new KintoneClient(subdomain, appId, 'apiToken');
+    var response = client.fetchGet('record');
+    assert.ok(response.getResponseCode() !== 200, 'a response code is not 200');
+  });
+
+  test('KintoneClient.fetch()', function (assert) {
+    setup();
+
+    var response = client.fetchPost('record', {});
+    var body = response.getBody();
+    var id = body.id;
+    assert.equal(response.getResponseCode(), 200, 'POST returns 200 status code');
+
+    response = client.fetchGet('record', {id: id});
+    assert.equal(response.getResponseCode(), 200, 'GET returns 200 status code');
+
+    response = client.fetchPut('record', {id: id, record: {}});
+    assert.equal(response.getResponseCode(), 200, 'PUT returns 200 status code');
+
+    response = client.fetchDelete('records', {ids: [id]});
+    assert.equal(response.getResponseCode(), 200, 'DELETE returns 200 status code');
+  });
+
+  test('KintoneClient.getApiUrl()', function (assert) {
+    setup();
+
+    assert.equal(
+      client.getApiUrl('records'),
+      'https://uuum.cybozu.com/k/v1/records.json',
+      'returns a valid api url'
+    );
+
+    assert.equal(
+      client.getApiUrl('record', {app: appId, id: 1}),
+      'https://uuum.cybozu.com/k/v1/record.json?app=' + appId + '&id=1',
+      'returns a valid api url with query strings'
+    );
+  });
+
+  test('KintoneClient.getAuthorizationHeader()', function (assert) {
+    setup();
+
+    assert.deepEqual(
+      client.getAuthorizationHeader(),
+      { 'X-Cybozu-API-Token': apiToken },
+      'returns a valid authorization header'
+    );
+  });
+
+  test('KintoneClient.getHost()', function (assert) {
+    setup();
+
+    assert.equal(client.getHost(), 'uuum.cybozu.com', 'returns a valid host name');
+  });
+
+  test('KintoneClient.getApiPath()', function (assert) {
+    setup();
+
+    assert.equal(client.getPath('record'), '/k/v1/record.json', 'returns a valid path');
+  });
+
+  test('KintoneClient.objMerge()', function (assert) {
+    setup();
+
+    var a = {foo: 'foo'};
+    var b = {bar: 'bar'};
+    var c = {bar: 'baz'};
+    var expected = {foo: 'foo', bar: 'baz'};
+    assert.deepEqual(client.objMerge(a, b, c), expected, 'merges objects');
+  });
+});
+
+/* eslint func-names: ["error", "never"] */

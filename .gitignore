@@ -1,0 +1,8 @@
+*.swp
+*~
+.DS_Store
+
+/client_secret.json
+/gapps.config.json.sample
+/node_modules
+/npm-debug.log
