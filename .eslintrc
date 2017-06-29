@@ -3,6 +3,7 @@
     // Google Apps Script
     PropertiesService: true,
     UrlFetchApp: true,
+    Utilities: true,
 
     // Test Library
     GasTap: true,
@@ -12,6 +13,7 @@
     KintoneClient: true,
     KintoneError: true,
     KintoneResponse: true,
+    TestCommon: true,
 
     // test function
     testRunner: true,

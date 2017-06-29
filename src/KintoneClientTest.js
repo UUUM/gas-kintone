@@ -2,14 +2,16 @@ testRunner.functions.push(function (test) {
   var subdomain;
   var appId;
   var apiToken;
+  var basicAuth;
   var client;
 
   function setup() {
-    var properties = PropertiesService.getScriptProperties();
-    subdomain = 'uuum';
-    appId = parseInt(properties.getProperty('KintoneTestAppId'), 10);
-    apiToken = properties.getProperty('KintoneTestApiToken');
-    client = new KintoneClient(subdomain, appId, apiToken);
+    var common = new TestCommon();
+    subdomain = common.subdomain;
+    appId = common.appId;
+    apiToken = common.apiToken;
+    basicAuth = common.basicAuth;
+    client = common.createKintoneClient();
   }
 
   test('new KintoneClient()', function (assert) {
@@ -57,21 +59,15 @@ testRunner.functions.push(function (test) {
       'throws an exception if apiToken was an empty string'
     );
 
-    client = new KintoneClient(subdomain, appId, apiToken);
+    client = new KintoneClient(subdomain, appId, apiToken, basicAuth);
     assert.ok(client instanceof KintoneClient, 'creates KintoneClient object with a valid argument');
     assert.equal(client.subdomain, subdomain, 'has a subdomain property');
     assert.equal(client.appId, appId, 'has a appId property');
     assert.equal(client.apiToken, apiToken, 'has an apiToken property');
     assert.deepEqual(client.params, {app: appId}, 'has a valid default parameters');
-    assert.deepEqual(
-      client.option,
-      {
-        contentType: 'application/json',
-        headers: { 'X-Cybozu-API-Token': apiToken },
-        muteHttpExceptions: true
-      },
-      'has a valid default option'
-    );
+    assert.equal(client.option.contentType, 'application/json', 'has a valid content type');
+    assert.equal(client.option.headers['X-Cybozu-API-Token'], apiToken, 'has a valid apiToken');
+    assert.equal(client.option.muteHttpExceptions, true, 'has a valid muteHttpExceptions value');
   });
 
   test('KintoneClient.createQueryString()', function (assert) {

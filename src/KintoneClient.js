@@ -1,22 +1,24 @@
-var KintoneClient = function KintoneClient(subdomain, appId, apiToken) {
+var KintoneClient = function KintoneClient(subdomain, appId, apiToken, basicAuth) {
+  this.subdomain = subdomain;
+  this.appId = appId;
+  this.apiToken = apiToken;
+  this.basicAuth = basicAuth;
+
   if (typeof subdomain !== 'string' || subdomain.length < 1) {
     throw new Error('subdomain must be specified');
   }
-  this.subdomain = subdomain;
 
   if (typeof appId !== 'number' || appId < 1) {
     throw new Error('appId must be specified');
   }
-  this.appId = appId;
 
   if (typeof apiToken !== 'string' || apiToken.length < 1) {
     throw new Error('apiToken must be specified');
   }
-  this.apiToken = apiToken;
 
   this.option = {
     contentType: 'application/json',
-    headers: this.getAuthorizationHeader(),
+    headers: this.getAuthorizationHeader(basicAuth),
     muteHttpExceptions: true
   };
 
@@ -91,8 +93,14 @@ KintoneClient.prototype.getApiUrl = function getApiUrl(command, params) {
   return url;
 };
 
-KintoneClient.prototype.getAuthorizationHeader = function getAuthorizationHeader() {
-  return { 'X-Cybozu-API-Token': this.apiToken };
+KintoneClient.prototype.getAuthorizationHeader = function getAuthorizationHeader(basicAuth) {
+  var headers = { 'X-Cybozu-API-Token': this.apiToken };
+
+  if (basicAuth) {
+    headers.Authorization = 'Basic ' + Utilities.base64Encode(basicAuth[0] + ':' + basicAuth[1]);
+  }
+
+  return headers;
 };
 
 KintoneClient.prototype.getHost = function getHost() {

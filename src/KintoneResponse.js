@@ -12,7 +12,15 @@ KintoneResponse.prototype.getBody = function getBody() {
 
   var text = this.response.getContentText();
   if (text) {
-    this.body = JSON.parse(text);
+    try {
+      this.body = JSON.parse(text);
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        this.body = text;
+      } else {
+        throw error;
+      }
+    }
   } else {
     this.body = {};
   }

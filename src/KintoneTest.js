@@ -2,14 +2,16 @@ testRunner.functions.push(function (test) {
   var subdomain;
   var appId;
   var apiToken;
+  var basicAuth;
   var kintone;
 
   function setup() {
-    var properties = PropertiesService.getScriptProperties();
-    subdomain = 'uuum';
-    appId = parseInt(properties.getProperty('KintoneTestAppId'), 10);
-    apiToken = properties.getProperty('KintoneTestApiToken');
-    kintone = new Kintone(subdomain, appId, apiToken);
+    var common = new TestCommon();
+    subdomain = common.subdomain;
+    appId = common.appId;
+    apiToken = common.apiToken;
+    basicAuth = common.basicAuth;
+    kintone = common.createKintone();
   }
 
   function deleteAllRecords() {
@@ -27,7 +29,7 @@ testRunner.functions.push(function (test) {
   test('new Kintone()', function (assert) {
     setup();
 
-    kintone = new Kintone(subdomain, appId, apiToken);
+    kintone = new Kintone(subdomain, appId, apiToken, basicAuth);
     assert.ok(kintone instanceof Kintone, 'creates Kintone object with a valid argument');
     assert.ok(kintone.client instanceof KintoneClient, 'has a client property');
   });

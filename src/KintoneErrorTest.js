@@ -3,13 +3,8 @@ testRunner.functions.push(function (test) {
   var response;
 
   function setup() {
-    var properties = PropertiesService.getScriptProperties();
-    var subdomain = 'uuum';
-    var appId = parseInt(properties.getProperty('KintoneTestAppId'), 10);
-    var apiToken = properties.getProperty('KintoneTestApiToken');
-    var client = new KintoneClient(subdomain, appId, apiToken);
-    var url = client.getApiUrl('record');
-    response = new KintoneResponse(UrlFetchApp.fetch(url, {muteHttpExceptions: true}));
+    var client = (new TestCommon()).createKintoneClient();
+    response = client.fetchGet('record');
     error = new KintoneError(response);
   }
 

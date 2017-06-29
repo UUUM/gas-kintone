@@ -3,13 +3,9 @@ testRunner.functions.push(function (test) {
   var response;
 
   function setup() {
-    var properties = PropertiesService.getScriptProperties();
-    var subdomain = 'uuum';
-    var appId = parseInt(properties.getProperty('KintoneTestAppId'), 10);
-    var apiToken = properties.getProperty('KintoneTestApiToken');
-    var client = new KintoneClient(subdomain, appId, apiToken);
+    var client = (new TestCommon()).createKintoneClient();
     url = client.getApiUrl('record');
-    response = new KintoneResponse(UrlFetchApp.fetch(url, {muteHttpExceptions: true}));
+    response = new KintoneResponse(UrlFetchApp.fetch(url, client.option));
   }
 
   test('new KintoneResponse()', function (assert) {
@@ -42,7 +38,7 @@ testRunner.functions.push(function (test) {
     setup();
 
     var contentType = response.getHeader('Content-Type');
-    assert.equal(contentType, 'application/json; charset=UTF-8', 'returns a valid header value');
+    assert.equal(contentType, 'application/json;charset=UTF-8', 'returns a valid header value');
   });
 
   test('KintoneResponse.getHeaders()', function (assert) {
@@ -50,13 +46,13 @@ testRunner.functions.push(function (test) {
 
     var headers = response.getHeaders();
     assert.equal(typeof headers, 'object', 'returns an object');
-    assert.equal(headers['Content-Type'], 'application/json; charset=UTF-8', 'has a valid Content-Type');
+    assert.equal(headers['Content-Type'], 'application/json;charset=UTF-8', 'has a valid Content-Type');
   });
 
   test('KintoneResponse.getResponseCode()', function (assert) {
     setup();
 
-    assert.equal(response.getResponseCode(), 520, 'returns an http response code');
+    assert.equal(response.getResponseCode(), 400, 'returns an http response code');
   });
 });
 
