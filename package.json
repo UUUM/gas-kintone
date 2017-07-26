@@ -1,13 +1,5 @@
 {
   "description": "google apps script kintone library",
-  "scripts": {
-    "auth": "gapps auth client_secret.json",
-    "check": "npm run lint",
-    "clean": "true",
-    "deploy": "gapps upload",
-    "distclean": "npm run clean && rimraf node_modules",
-    "lint": "eslint src test *.js"
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:UUUM/gas-kintone.git"
