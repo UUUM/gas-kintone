@@ -80,7 +80,7 @@ testRunner.functions.push(function (test) {
 
       var kintone2 = new Kintone(subdomain, appId, 'apiToken');
       var error = kintone2.recordCreate({one_line_text: 'foo'});
-      assert.ok(error instanceof KintoneError, 'recordCreate(): return KintoneError object if an error was occurred');
+      assert.ok(error instanceof ResponseError, 'recordCreate(): return ResponseError object if an error was occurred');
     })();
 
     // recordGet()
@@ -90,7 +90,7 @@ testRunner.functions.push(function (test) {
       assert.equal(record.one_line_text, 'foo', 'recordGet(): one_line_text value is accurate');
 
       var error = kintone.recordGet(0);
-      assert.ok(error instanceof KintoneError, 'recordGet(): return KintoneError object if an error was occurred');
+      assert.ok(error instanceof ResponseError, 'recordGet(): return ResponseError object if an error was occurred');
     })();
 
     // recordUpdate()
@@ -102,7 +102,7 @@ testRunner.functions.push(function (test) {
       assert.equal(record.one_line_text, 'bar', 'recordUpdate(): one_line_text value is changed');
 
       var error = kintone.recordUpdate(0, {});
-      assert.ok(error instanceof KintoneError, 'recordUpdate(): return KintoneError object if an error was occurred');
+      assert.ok(error instanceof ResponseError, 'recordUpdate(): return ResponseError object if an error was occurred');
     })();
 
     // recordDelete()
@@ -111,7 +111,7 @@ testRunner.functions.push(function (test) {
       assert.equal(result, true, 'recordDelete(): remove a record');
 
       var error = kintone.recordDelete(id);
-      assert.ok(error instanceof KintoneError, 'recordDelete(): return KintoneError object if an error was occurred');
+      assert.ok(error instanceof ResponseError, 'recordDelete(): return ResponseError object if an error was occurred');
     })();
   });
 
@@ -134,7 +134,7 @@ testRunner.functions.push(function (test) {
 
       var kintone2 = new Kintone(subdomain, appId, 'apiToken');
       var error = kintone2.recordsCreate([]);
-      assert.ok(error instanceof KintoneError, 'recordsCreate(): return KintoneError object if an error was occurred');
+      assert.ok(error instanceof ResponseError, 'recordsCreate(): return ResponseError object if an error was occurred');
     })();
 
     // recordsGet()
@@ -155,7 +155,7 @@ testRunner.functions.push(function (test) {
       );
 
       var error = kintone.recordsGet('$id == 0');
-      assert.ok(error instanceof KintoneError, 'recordsGet(): return KintoneError object if an error was occurred');
+      assert.ok(error instanceof ResponseError, 'recordsGet(): return ResponseError object if an error was occurred');
     })();
 
     // recordsUpdate()
@@ -186,7 +186,7 @@ testRunner.functions.push(function (test) {
       );
 
       var error = kintone.recordsUpdate([{id: 0}]);
-      assert.ok(error instanceof KintoneError, 'recordsUpdate(): return KintoneError object if an error was occurred');
+      assert.ok(error instanceof ResponseError, 'recordsUpdate(): return ResponseError object if an error was occurred');
     })();
 
     // recordsDelete()
@@ -195,7 +195,7 @@ testRunner.functions.push(function (test) {
       assert.equal(result, true, 'recordsDelete(): remove records');
 
       var error = kintone.recordsDelete(ids);
-      assert.ok(error instanceof KintoneError, 'recordsDelete(): return KintoneError object if an error was occurred');
+      assert.ok(error instanceof ResponseError, 'recordsDelete(): return ResponseError object if an error was occurred');
     })();
   });
 

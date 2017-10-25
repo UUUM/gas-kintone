@@ -6,7 +6,7 @@ var Kintone = function Kintone(subdomain, appId, apiToken, basicAuth) {
 Kintone.prototype.formGet = function formGet() {
   var response = this.lastResponse = this.client.fetchGet('form');
   if (response.getResponseCode() !== 200) {
-    return new KintoneError(response);
+    return new ResponseError(response);
   }
   return response.getBody().properties;
 };
@@ -19,7 +19,7 @@ Kintone.prototype.getAllRecords = function getAllRecords(fromId) {
 
 Kintone.prototype.getFieldCodes = function getFieldCodes() {
   var properties = this.formGet();
-  if (properties instanceof KintoneError) {
+  if (properties instanceof ResponseError) {
     return properties;
   }
 
@@ -33,7 +33,7 @@ Kintone.prototype.getFieldCodes = function getFieldCodes() {
 Kintone.prototype.recordCreate = function recordCreate(record) {
   var response = this.lastResponse = this.client.fetchPost('record', {record: this.toApiRecord(record)});
   if (response.getResponseCode() !== 200) {
-    return new KintoneError(response);
+    return new ResponseError(response);
   }
 
   return parseInt(response.getBody().id, 10);
@@ -42,7 +42,7 @@ Kintone.prototype.recordCreate = function recordCreate(record) {
 Kintone.prototype.recordDelete = function recordDelete(id) {
   var response = this.lastResponse = this.client.fetchDelete('records', {ids: [id]});
   if (response.getResponseCode() !== 200) {
-    return new KintoneError(response);
+    return new ResponseError(response);
   }
   return true;
 };
@@ -50,7 +50,7 @@ Kintone.prototype.recordDelete = function recordDelete(id) {
 Kintone.prototype.recordGet = function recordGet(id) {
   var response = this.lastResponse = this.client.fetchGet('record', {id: id});
   if (response.getResponseCode() !== 200) {
-    return new KintoneError(response);
+    return new ResponseError(response);
   }
   return this.toRecord(response.getBody().record);
 };
@@ -58,7 +58,7 @@ Kintone.prototype.recordGet = function recordGet(id) {
 Kintone.prototype.recordUpdate = function recordUpdate(id, record) {
   var response = this.lastResponse = this.client.fetchPut('record', {id: id, record: this.toApiRecord(record)});
   if (response.getResponseCode() !== 200) {
-    return new KintoneError(response);
+    return new ResponseError(response);
   }
 
   return parseInt(response.getBody().revision, 10);
@@ -72,7 +72,7 @@ Kintone.prototype.recordsCreate = function recordsCreate(records) {
 
   var response = this.lastResponse = this.client.fetchPost('records', {records: recordsParam});
   if (response.getResponseCode() !== 200) {
-    return new KintoneError(response);
+    return new ResponseError(response);
   }
 
   var ids = response.getBody().ids;
@@ -85,7 +85,7 @@ Kintone.prototype.recordsCreate = function recordsCreate(records) {
 Kintone.prototype.recordsDelete = function recordsDelete(ids) {
   var response = this.lastResponse = this.client.fetchDelete('records', {ids: ids});
   if (response.getResponseCode() !== 200) {
-    return new KintoneError(response);
+    return new ResponseError(response);
   }
   return true;
 };
@@ -101,7 +101,7 @@ Kintone.prototype.recordsGet = function recordsGet(query, fields) {
 
   var response = this.lastResponse = this.client.fetchGet('records', params);
   if (response.getResponseCode() !== 200) {
-    return new KintoneError(response);
+    return new ResponseError(response);
   }
 
   var result = [];
@@ -127,7 +127,7 @@ Kintone.prototype.recordsUpdate = function recordsUpdate(records) {
 
   var response = this.lastResponse = this.client.fetchPut('records', {records: recordsParam});
   if (response.getResponseCode() !== 200) {
-    return new KintoneError(response);
+    return new ResponseError(response);
   }
 
   var result = response.getBody().records;

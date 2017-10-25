@@ -11,9 +11,9 @@
     // Our classes
     Kintone: true,
     KintoneClient: true,
-    KintoneError: true,
     KintoneResponse: true,
     Obj: true,
+    ResponseError: true,
     TestCommon: true,
 
     // test function

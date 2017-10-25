@@ -1,4 +1,4 @@
-var KintoneError = function KintoneError(response) {
+var ResponseError = function ResponseError(response) {
   this.response = response;
 
   var body = response.getBody();
@@ -11,6 +11,6 @@ var KintoneError = function KintoneError(response) {
   }
 };
 
-KintoneError.prototype.toString = function toString() {
+ResponseError.prototype.toString = function toString() {
   return this.message;
 };
