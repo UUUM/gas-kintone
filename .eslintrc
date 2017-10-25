@@ -13,6 +13,7 @@
     KintoneClient: true,
     KintoneError: true,
     KintoneResponse: true,
+    Obj: true,
     TestCommon: true,
 
     // test function
