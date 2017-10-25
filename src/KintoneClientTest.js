@@ -95,8 +95,7 @@ testRunner.functions.push(function (test) {
     setup();
 
     var response = client.fetchPost('record', {});
-    var body = response.getBody();
-    var id = body.id;
+    var id = response.getContentObject().id;
     assert.equal(response.getResponseCode(), 200, 'POST returns 200 status code');
 
     response = client.fetchGet('record', {id: id});

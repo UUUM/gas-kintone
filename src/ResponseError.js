@@ -1,13 +1,13 @@
 var ResponseError = function ResponseError(response) {
   this.response = response;
 
-  var body = response.getBody();
-  if (body instanceof Object) {
-    this.id = body.id;
-    this.code = body.code;
-    this.message = body.message;
+  var content = response.getContentObject();
+  if (content instanceof Object) {
+    this.id = content.id;
+    this.code = content.code;
+    this.message = content.message;
   } else {
-    this.message = body;
+    this.message = content;
   }
 };
 

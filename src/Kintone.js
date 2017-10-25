@@ -8,7 +8,7 @@ Kintone.prototype.formGet = function formGet() {
   if (response.getResponseCode() !== 200) {
     return new ResponseError(response);
   }
-  return response.getBody().properties;
+  return response.getContentObject().properties;
 };
 
 Kintone.prototype.getAllRecords = function getAllRecords(fromId) {
@@ -36,7 +36,7 @@ Kintone.prototype.recordCreate = function recordCreate(record) {
     return new ResponseError(response);
   }
 
-  return parseInt(response.getBody().id, 10);
+  return parseInt(response.getContentObject().id, 10);
 };
 
 Kintone.prototype.recordDelete = function recordDelete(id) {
@@ -52,7 +52,7 @@ Kintone.prototype.recordGet = function recordGet(id) {
   if (response.getResponseCode() !== 200) {
     return new ResponseError(response);
   }
-  return this.toRecord(response.getBody().record);
+  return this.toRecord(response.getContentObject().record);
 };
 
 Kintone.prototype.recordUpdate = function recordUpdate(id, record) {
@@ -61,7 +61,7 @@ Kintone.prototype.recordUpdate = function recordUpdate(id, record) {
     return new ResponseError(response);
   }
 
-  return parseInt(response.getBody().revision, 10);
+  return parseInt(response.getContentObject().revision, 10);
 };
 
 Kintone.prototype.recordsCreate = function recordsCreate(records) {
@@ -75,7 +75,7 @@ Kintone.prototype.recordsCreate = function recordsCreate(records) {
     return new ResponseError(response);
   }
 
-  var ids = response.getBody().ids;
+  var ids = response.getContentObject().ids;
   for (i = 0; i < ids.length; i++) {
     ids[i] = parseInt(ids[i], 10);
   }
@@ -105,7 +105,7 @@ Kintone.prototype.recordsGet = function recordsGet(query, fields) {
   }
 
   var result = [];
-  var records = response.getBody().records;
+  var records = response.getContentObject().records;
   for (var i = 0; i < records.length; i++) {
     result.push(this.toRecord(records[i]));
   }
@@ -130,7 +130,7 @@ Kintone.prototype.recordsUpdate = function recordsUpdate(records) {
     return new ResponseError(response);
   }
 
-  var result = response.getBody().records;
+  var result = response.getContentObject().records;
   for (i = 0; i < result.length; i++) {
     result[i].id = parseInt(result[i].id, 10);
     result[i].revision = parseInt(result[i].revision, 10);

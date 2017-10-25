@@ -59,7 +59,7 @@ KintoneClient.prototype.fetch = function fetch(method, command, queryParams, bod
     option.payload = JSON.stringify(this.objMerge(this.params, bodyParams));
   }
 
-  return new KintoneResponse(UrlFetchApp.fetch(url, option));
+  return new Response(UrlFetchApp.fetch(url, option));
 };
 
 KintoneClient.prototype.fetchDelete = function fetchDelete(command, params) {

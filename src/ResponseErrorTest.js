@@ -14,9 +14,9 @@ testRunner.functions.push(function (test) {
     error = new ResponseError(response);
     assert.ok(error instanceof ResponseError, 'creates ResponseError object with a valid argument');
     assert.equal(error.response, response, 'has a response property');
-    assert.equal(error.id, response.getBody().id, 'has an id property');
-    assert.equal(error.code, response.getBody().code, 'has a code property');
-    assert.equal(error.message, response.getBody().message, 'has a message property');
+    assert.equal(error.id, response.getContentObject().id, 'has an id property');
+    assert.equal(error.code, response.getContentObject().code, 'has a code property');
+    assert.equal(error.message, response.getContentObject().message, 'has a message property');
   });
 });
 

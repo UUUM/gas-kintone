@@ -5,43 +5,43 @@ testRunner.functions.push(function (test) {
   function setup() {
     var client = (new TestCommon()).createKintoneClient();
     url = client.getApiUrl('record');
-    response = new KintoneResponse(UrlFetchApp.fetch(url, client.option));
+    response = new Response(UrlFetchApp.fetch(url, client.option));
   }
 
-  test('new KintoneResponse()', function (assert) {
+  test('new Response()', function (assert) {
     setup();
 
     assert.throws(
       function () {
-        return new KintoneResponse('foo');
+        return new Response('foo');
       },
       'throws an exception if response was not a HTTPResponse object'
     );
 
     var httpResponse = UrlFetchApp.fetch(url, {muteHttpExceptions: true});
-    response = new KintoneResponse(httpResponse);
-    assert.ok(response instanceof KintoneResponse, 'creates KintoneResponse object with a valid argument');
+    response = new Response(httpResponse);
+    assert.ok(response instanceof Response, 'creates Response object with a valid argument');
     assert.equal(response.response, httpResponse, 'has a response property');
   });
 
-  test('KintoneResponse.getBody()', function (assert) {
+  test('Response.getContentObject()', function (assert) {
     setup();
 
-    var body = response.getBody();
-    assert.equal(typeof body, 'object', 'returns an object');
-    assert.ok(body.hasOwnProperty('code'), 'has a code property');
-    assert.ok(body.hasOwnProperty('id'), 'has a id property');
-    assert.ok(body.hasOwnProperty('message'), 'has a message property');
+    var content = response.getContentObject();
+    assert.equal(typeof content, 'object', 'returns an object');
+    assert.ok(content.hasOwnProperty('code'), 'has a code property');
+    assert.ok(content.hasOwnProperty('id'), 'has a id property');
+    assert.ok(content.hasOwnProperty('message'), 'has a message property');
   });
 
-  test('KintoneResponse.getHeader()', function (assert) {
+  test('Response.getHeader()', function (assert) {
     setup();
 
     var contentType = response.getHeader('Content-Type');
     assert.equal(contentType, 'application/json;charset=UTF-8', 'returns a valid header value');
   });
 
-  test('KintoneResponse.getHeaders()', function (assert) {
+  test('Response.getHeaders()', function (assert) {
     setup();
 
     var headers = response.getHeaders();
@@ -49,7 +49,7 @@ testRunner.functions.push(function (test) {
     assert.equal(headers['Content-Type'], 'application/json;charset=UTF-8', 'has a valid Content-Type');
   });
 
-  test('KintoneResponse.getResponseCode()', function (assert) {
+  test('Response.getResponseCode()', function (assert) {
     setup();
 
     assert.equal(response.getResponseCode(), 400, 'returns an http response code');
