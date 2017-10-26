@@ -23,6 +23,17 @@ TestCommon.prototype.getClient = function getClient() {
   return this.client;
 };
 
+TestCommon.prototype.getErrorResponse = function getErrorResponse() {
+  if (this.errorResponse) {
+    return this.errorResponse;
+  }
+
+  var client = this.getClient();
+  var url = client.getApiUrl('record');
+  this.errorResponse = new Response(UrlFetchApp.fetch(url, client.option));
+  return this.errorResponse;
+};
+
 TestCommon.prototype.getKintone = function getKintone() {
   if (this.kintone) {
     return this.kintone;

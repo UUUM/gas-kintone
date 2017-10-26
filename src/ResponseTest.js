@@ -1,16 +1,5 @@
-testRunner.functions.push(function (test) {
-  var url;
-  var response;
-
-  function setup() {
-    var client = (new TestCommon()).getClient();
-    url = client.getApiUrl('record');
-    response = new Response(UrlFetchApp.fetch(url, client.option));
-  }
-
+testRunner.functions.push(function (test, common) {
   test('new Response()', function (assert) {
-    setup();
-
     assert.throws(
       function () {
         return new Response('foo');
@@ -18,41 +7,33 @@ testRunner.functions.push(function (test) {
       'throws an exception if response was not a HTTPResponse object'
     );
 
-    var httpResponse = UrlFetchApp.fetch(url, {muteHttpExceptions: true});
-    response = new Response(httpResponse);
+    var httpResponse = UrlFetchApp.fetch(common.getClient().getApiUrl(''), {muteHttpExceptions: true});
+    var response = new Response(httpResponse);
     assert.ok(response instanceof Response, 'creates Response object with a valid argument');
     assert.equal(response.response, httpResponse, 'has a response property');
   });
 
   test('Response.getContentObject()', function (assert) {
-    setup();
-
-    var content = response.getContentObject();
-    assert.equal(typeof content, 'object', 'returns an object');
+    var content = common.getErrorResponse().getContentObject();
+    assert.ok(Obj.isObject(content), 'returns an object');
     assert.ok(content.hasOwnProperty('code'), 'has a code property');
     assert.ok(content.hasOwnProperty('id'), 'has a id property');
     assert.ok(content.hasOwnProperty('message'), 'has a message property');
   });
 
   test('Response.getHeader()', function (assert) {
-    setup();
-
-    var contentType = response.getHeader('Content-Type');
+    var contentType = common.getErrorResponse().getHeader('Content-Type');
     assert.equal(contentType, 'application/json;charset=UTF-8', 'returns a valid header value');
   });
 
   test('Response.getHeaders()', function (assert) {
-    setup();
-
-    var headers = response.getHeaders();
-    assert.equal(typeof headers, 'object', 'returns an object');
+    var headers = common.getErrorResponse().getHeaders();
+    assert.ok(Obj.isObject(headers), 'returns an object');
     assert.equal(headers['Content-Type'], 'application/json;charset=UTF-8', 'has a valid Content-Type');
   });
 
   test('Response.getResponseCode()', function (assert) {
-    setup();
-
-    assert.equal(response.getResponseCode(), 400, 'returns an http response code');
+    assert.equal(common.getErrorResponse().getResponseCode(), 400, 'returns an http response code');
   });
 });
 
