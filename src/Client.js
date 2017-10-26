@@ -49,14 +49,14 @@ Client.prototype.createQueryString = function createQueryString(params) {
 };
 
 Client.prototype.fetch = function fetch(method, command, queryParams, bodyParams) {
-  var params = queryParams ? this.objMerge(this.params, queryParams) : {};
+  var params = queryParams ? Obj.merge(this.params, queryParams) : {};
   var url = this.getApiUrl(command, params);
 
-  var option = this.objMerge(this.option, {
+  var option = Obj.merge(this.option, {
     method: method
   });
   if (bodyParams) {
-    option.payload = JSON.stringify(this.objMerge(this.params, bodyParams));
+    option.payload = JSON.stringify(Obj.merge(this.params, bodyParams));
   }
 
   return new Response(UrlFetchApp.fetch(url, option));
@@ -109,18 +109,4 @@ Client.prototype.getHost = function getHost() {
 
 Client.prototype.getPath = function getPath(command) {
   return '/k/v1/' + command + '.json';
-};
-
-Client.prototype.objMerge = function merge() {
-  var obj = {};
-  for (var i = 0; i < arguments.length; i++) {
-    var argument = arguments[i];
-    for (var key in argument) {
-      if (!argument.hasOwnProperty(key)) {
-        continue;
-      }
-      obj[key] = argument[key];
-    }
-  }
-  return obj;
 };

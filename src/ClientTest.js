@@ -1,21 +1,9 @@
-testRunner.functions.push(function (test) {
-  var subdomain;
-  var appId;
-  var apiToken;
-  var basicAuth;
-  var client;
-
-  function setup() {
-    var common = new TestCommon();
-    subdomain = common.subdomain;
-    appId = common.appId;
-    apiToken = common.apiToken;
-    basicAuth = common.basicAuth;
-    client = common.getClient();
-  }
-
+testRunner.functions.push(function (test, common) {
   test('new Client()', function (assert) {
-    setup();
+    var subdomain = common.subdomain;
+    var appId = common.appId;
+    var apiToken = common.apiToken;
+    var basicAuth = common.basicAuth;
 
     assert.throws(
       function () {
@@ -59,7 +47,7 @@ testRunner.functions.push(function (test) {
       'throws an exception if apiToken was an empty string'
     );
 
-    client = new Client(subdomain, appId, apiToken, basicAuth);
+    var client = new Client(subdomain, appId, apiToken, basicAuth);
     assert.ok(client instanceof Client, 'creates Client object with a valid argument');
     assert.equal(client.subdomain, subdomain, 'has a subdomain property');
     assert.equal(client.appId, appId, 'has a appId property');
@@ -71,7 +59,7 @@ testRunner.functions.push(function (test) {
   });
 
   test('Client.createQueryString()', function (assert) {
-    setup();
+    var client = common.getClient();
 
     var queryString = client.createQueryString({});
     assert.equal(queryString, '', 'returns an empty string with no parameters');
@@ -84,15 +72,13 @@ testRunner.functions.push(function (test) {
   });
 
   test('Client.fetch() with an invalid apiToken', function (assert) {
-    setup();
-
-    client = new Client(subdomain, appId, 'apiToken');
+    var client = new Client(common.subdomain, common.appId, 'apiToken');
     var response = client.fetchGet('record');
     assert.ok(response.getResponseCode() !== 200, 'a response code is not 200');
   });
 
   test('Client.fetch()', function (assert) {
-    setup();
+    var client = common.getClient();
 
     var response = client.fetchPost('record', {});
     var id = response.getContentObject().id;
@@ -109,7 +95,8 @@ testRunner.functions.push(function (test) {
   });
 
   test('Client.getApiUrl()', function (assert) {
-    setup();
+    var client = common.getClient();
+    var appId = common.appId;
 
     assert.equal(
       client.getApiUrl('records'),
@@ -125,35 +112,19 @@ testRunner.functions.push(function (test) {
   });
 
   test('Client.getAuthorizationHeader()', function (assert) {
-    setup();
-
     assert.deepEqual(
-      client.getAuthorizationHeader(),
-      { 'X-Cybozu-API-Token': apiToken },
+      common.getClient().getAuthorizationHeader(),
+      { 'X-Cybozu-API-Token': common.apiToken },
       'returns a valid authorization header'
     );
   });
 
   test('Client.getHost()', function (assert) {
-    setup();
-
-    assert.equal(client.getHost(), 'uuum.cybozu.com', 'returns a valid host name');
+    assert.equal(common.getClient().getHost(), 'uuum.cybozu.com', 'returns a valid host name');
   });
 
   test('Client.getApiPath()', function (assert) {
-    setup();
-
-    assert.equal(client.getPath('record'), '/k/v1/record.json', 'returns a valid path');
-  });
-
-  test('Client.objMerge()', function (assert) {
-    setup();
-
-    var a = {foo: 'foo'};
-    var b = {bar: 'bar'};
-    var c = {bar: 'baz'};
-    var expected = {foo: 'foo', bar: 'baz'};
-    assert.deepEqual(client.objMerge(a, b, c), expected, 'merges objects');
+    assert.equal(common.getClient().getPath('record'), '/k/v1/record.json', 'returns a valid path');
   });
 });
 
