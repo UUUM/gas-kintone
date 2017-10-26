@@ -18,6 +18,6 @@ TestCommon.prototype.createKintone = function createKintone() {
   return new Kintone(this.subdomain, this.appId, this.apiToken, this.basicAuth);
 };
 
-TestCommon.prototype.createKintoneClient = function createKintoneClient() {
-  return new KintoneClient(this.subdomain, this.appId, this.apiToken, this.basicAuth);
+TestCommon.prototype.createClient = function createClient() {
+  return new Client(this.subdomain, this.appId, this.apiToken, this.basicAuth);
 };

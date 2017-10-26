@@ -3,7 +3,7 @@ testRunner.functions.push(function (test) {
   var response;
 
   function setup() {
-    var client = (new TestCommon()).createKintoneClient();
+    var client = (new TestCommon()).createClient();
     response = client.fetchGet('record');
     error = new ResponseError(response);
   }

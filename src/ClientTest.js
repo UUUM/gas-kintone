@@ -11,56 +11,56 @@ testRunner.functions.push(function (test) {
     appId = common.appId;
     apiToken = common.apiToken;
     basicAuth = common.basicAuth;
-    client = common.createKintoneClient();
+    client = common.createClient();
   }
 
-  test('new KintoneClient()', function (assert) {
+  test('new Client()', function (assert) {
     setup();
 
     assert.throws(
       function () {
-        return new KintoneClient(1, appId, apiToken);
+        return new Client(1, appId, apiToken);
       },
       'throws an exception if subdomain was not a string'
     );
 
     assert.throws(
       function () {
-        return new KintoneClient('', appId, apiToken);
+        return new Client('', appId, apiToken);
       },
       'throws an exception if subdomain was an empty string'
     );
 
     assert.throws(
       function () {
-        return new KintoneClient(subdomain, 'appId', apiToken);
+        return new Client(subdomain, 'appId', apiToken);
       },
       'throws an exception if appId was not a number'
     );
 
     assert.throws(
       function () {
-        return new KintoneClient(subdomain, 0, apiToken);
+        return new Client(subdomain, 0, apiToken);
       },
       'throws an exception if appId was not a positive integer'
     );
 
     assert.throws(
       function () {
-        return new KintoneClient(subdomain, appId, 1);
+        return new Client(subdomain, appId, 1);
       },
       'throws an exception if apiToken was not a string'
     );
 
     assert.throws(
       function () {
-        return new KintoneClient(subdomain, appId, '');
+        return new Client(subdomain, appId, '');
       },
       'throws an exception if apiToken was an empty string'
     );
 
-    client = new KintoneClient(subdomain, appId, apiToken, basicAuth);
-    assert.ok(client instanceof KintoneClient, 'creates KintoneClient object with a valid argument');
+    client = new Client(subdomain, appId, apiToken, basicAuth);
+    assert.ok(client instanceof Client, 'creates Client object with a valid argument');
     assert.equal(client.subdomain, subdomain, 'has a subdomain property');
     assert.equal(client.appId, appId, 'has a appId property');
     assert.equal(client.apiToken, apiToken, 'has an apiToken property');
@@ -70,7 +70,7 @@ testRunner.functions.push(function (test) {
     assert.equal(client.option.muteHttpExceptions, true, 'has a valid muteHttpExceptions value');
   });
 
-  test('KintoneClient.createQueryString()', function (assert) {
+  test('Client.createQueryString()', function (assert) {
     setup();
 
     var queryString = client.createQueryString({});
@@ -83,15 +83,15 @@ testRunner.functions.push(function (test) {
     assert.equal(queryString, 'foo=bar&ids%5B0%5D=1&ids%5B1%5D=2', 'returns an array query string');
   });
 
-  test('KintoneClient.fetch() with an invalid apiToken', function (assert) {
+  test('Client.fetch() with an invalid apiToken', function (assert) {
     setup();
 
-    client = new KintoneClient(subdomain, appId, 'apiToken');
+    client = new Client(subdomain, appId, 'apiToken');
     var response = client.fetchGet('record');
     assert.ok(response.getResponseCode() !== 200, 'a response code is not 200');
   });
 
-  test('KintoneClient.fetch()', function (assert) {
+  test('Client.fetch()', function (assert) {
     setup();
 
     var response = client.fetchPost('record', {});
@@ -108,7 +108,7 @@ testRunner.functions.push(function (test) {
     assert.equal(response.getResponseCode(), 200, 'DELETE returns 200 status code');
   });
 
-  test('KintoneClient.getApiUrl()', function (assert) {
+  test('Client.getApiUrl()', function (assert) {
     setup();
 
     assert.equal(
@@ -124,7 +124,7 @@ testRunner.functions.push(function (test) {
     );
   });
 
-  test('KintoneClient.getAuthorizationHeader()', function (assert) {
+  test('Client.getAuthorizationHeader()', function (assert) {
     setup();
 
     assert.deepEqual(
@@ -134,19 +134,19 @@ testRunner.functions.push(function (test) {
     );
   });
 
-  test('KintoneClient.getHost()', function (assert) {
+  test('Client.getHost()', function (assert) {
     setup();
 
     assert.equal(client.getHost(), 'uuum.cybozu.com', 'returns a valid host name');
   });
 
-  test('KintoneClient.getApiPath()', function (assert) {
+  test('Client.getApiPath()', function (assert) {
     setup();
 
     assert.equal(client.getPath('record'), '/k/v1/record.json', 'returns a valid path');
   });
 
-  test('KintoneClient.objMerge()', function (assert) {
+  test('Client.objMerge()', function (assert) {
     setup();
 
     var a = {foo: 'foo'};

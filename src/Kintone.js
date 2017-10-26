@@ -1,5 +1,5 @@
 var Kintone = function Kintone(subdomain, appId, apiToken, basicAuth) {
-  this.client = new KintoneClient(subdomain, appId, apiToken, basicAuth);
+  this.client = new Client(subdomain, appId, apiToken, basicAuth);
   this.lastResponse = null;
 };
 

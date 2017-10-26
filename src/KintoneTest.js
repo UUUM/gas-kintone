@@ -31,7 +31,7 @@ testRunner.functions.push(function (test) {
 
     kintone = new Kintone(subdomain, appId, apiToken, basicAuth);
     assert.ok(kintone instanceof Kintone, 'creates Kintone object with a valid argument');
-    assert.ok(kintone.client instanceof KintoneClient, 'has a client property');
+    assert.ok(kintone.client instanceof Client, 'has a client property');
   });
 
   test('Kintone.getAllRecords()', function (assert) {

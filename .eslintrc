@@ -9,8 +9,8 @@
     GasTap: true,
 
     // Our classes
+    Client: true,
     Kintone: true,
-    KintoneClient: true,
     Obj: true,
     Response: true,
     ResponseError: true,

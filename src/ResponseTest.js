@@ -3,7 +3,7 @@ testRunner.functions.push(function (test) {
   var response;
 
   function setup() {
-    var client = (new TestCommon()).createKintoneClient();
+    var client = (new TestCommon()).createClient();
     url = client.getApiUrl('record');
     response = new Response(UrlFetchApp.fetch(url, client.option));
   }

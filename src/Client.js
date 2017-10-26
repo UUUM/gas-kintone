@@ -1,4 +1,4 @@
-var KintoneClient = function KintoneClient(subdomain, appId, apiToken, basicAuth) {
+var Client = function Client(subdomain, appId, apiToken, basicAuth) {
   this.subdomain = subdomain;
   this.appId = appId;
   this.apiToken = apiToken;
@@ -27,7 +27,7 @@ var KintoneClient = function KintoneClient(subdomain, appId, apiToken, basicAuth
   };
 };
 
-KintoneClient.prototype.createQueryString = function createQueryString(params) {
+Client.prototype.createQueryString = function createQueryString(params) {
   var values = [];
   for (var key in params) {
     if (!params.hasOwnProperty(key)) {
@@ -48,7 +48,7 @@ KintoneClient.prototype.createQueryString = function createQueryString(params) {
   return values.join('&');
 };
 
-KintoneClient.prototype.fetch = function fetch(method, command, queryParams, bodyParams) {
+Client.prototype.fetch = function fetch(method, command, queryParams, bodyParams) {
   var params = queryParams ? this.objMerge(this.params, queryParams) : {};
   var url = this.getApiUrl(command, params);
 
@@ -62,27 +62,27 @@ KintoneClient.prototype.fetch = function fetch(method, command, queryParams, bod
   return new Response(UrlFetchApp.fetch(url, option));
 };
 
-KintoneClient.prototype.fetchDelete = function fetchDelete(command, params) {
+Client.prototype.fetchDelete = function fetchDelete(command, params) {
   var apiParams = params ? params : {};
   return this.fetch('delete', command, apiParams);
 };
 
-KintoneClient.prototype.fetchGet = function fetchGet(command, params) {
+Client.prototype.fetchGet = function fetchGet(command, params) {
   var apiParams = params ? params : {};
   return this.fetch('get', command, apiParams);
 };
 
-KintoneClient.prototype.fetchPost = function fetchPost(command, params) {
+Client.prototype.fetchPost = function fetchPost(command, params) {
   var apiParams = params ? params : {};
   return this.fetch('post', command, null, apiParams);
 };
 
-KintoneClient.prototype.fetchPut = function fetchPut(command, params) {
+Client.prototype.fetchPut = function fetchPut(command, params) {
   var apiParams = params ? params : {};
   return this.fetch('put', command, null, apiParams);
 };
 
-KintoneClient.prototype.getApiUrl = function getApiUrl(command, params) {
+Client.prototype.getApiUrl = function getApiUrl(command, params) {
   var url = 'https://' + this.getHost() + this.getPath(command);
 
   var queryString = this.createQueryString(params);
@@ -93,7 +93,7 @@ KintoneClient.prototype.getApiUrl = function getApiUrl(command, params) {
   return url;
 };
 
-KintoneClient.prototype.getAuthorizationHeader = function getAuthorizationHeader(basicAuth) {
+Client.prototype.getAuthorizationHeader = function getAuthorizationHeader(basicAuth) {
   var headers = { 'X-Cybozu-API-Token': this.apiToken };
 
   if (basicAuth) {
@@ -103,15 +103,15 @@ KintoneClient.prototype.getAuthorizationHeader = function getAuthorizationHeader
   return headers;
 };
 
-KintoneClient.prototype.getHost = function getHost() {
+Client.prototype.getHost = function getHost() {
   return this.subdomain + '.cybozu.com';
 };
 
-KintoneClient.prototype.getPath = function getPath(command) {
+Client.prototype.getPath = function getPath(command) {
   return '/k/v1/' + command + '.json';
 };
 
-KintoneClient.prototype.objMerge = function merge() {
+Client.prototype.objMerge = function merge() {
   var obj = {};
   for (var i = 0; i < arguments.length; i++) {
     var argument = arguments[i];
