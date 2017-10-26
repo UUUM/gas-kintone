@@ -14,10 +14,20 @@ var TestCommon = function TestCommon() {
   }
 };
 
-TestCommon.prototype.createKintone = function createKintone() {
-  return new Kintone(this.subdomain, this.appId, this.apiToken, this.basicAuth);
+TestCommon.prototype.getClient = function getClient() {
+  if (this.client) {
+    return this.client;
+  }
+
+  this.client = new Client(this.subdomain, this.appId, this.apiToken, this.basicAuth);
+  return this.client;
 };
 
-TestCommon.prototype.createClient = function createClient() {
-  return new Client(this.subdomain, this.appId, this.apiToken, this.basicAuth);
+TestCommon.prototype.getKintone = function getKintone() {
+  if (this.kintone) {
+    return this.kintone;
+  }
+
+  this.kintone = new Kintone(this.subdomain, this.appId, this.apiToken, this.basicAuth);
+  return this.kintone;
 };

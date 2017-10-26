@@ -3,7 +3,7 @@ testRunner.functions.push(function (test) {
   var response;
 
   function setup() {
-    var client = (new TestCommon()).createClient();
+    var client = (new TestCommon()).getClient();
     url = client.getApiUrl('record');
     response = new Response(UrlFetchApp.fetch(url, client.option));
   }

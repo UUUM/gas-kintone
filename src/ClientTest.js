@@ -11,7 +11,7 @@ testRunner.functions.push(function (test) {
     appId = common.appId;
     apiToken = common.apiToken;
     basicAuth = common.basicAuth;
-    client = common.createClient();
+    client = common.getClient();
   }
 
   test('new Client()', function (assert) {

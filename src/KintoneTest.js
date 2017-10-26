@@ -11,7 +11,7 @@ testRunner.functions.push(function (test) {
     appId = common.appId;
     apiToken = common.apiToken;
     basicAuth = common.basicAuth;
-    kintone = common.createKintone();
+    kintone = common.getKintone();
   }
 
   function deleteAllRecords() {
