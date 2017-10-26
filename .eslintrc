@@ -1,6 +1,7 @@
 {
   globals: {
     // Google Apps Script
+    Logger: true,
     PropertiesService: true,
     UrlFetchApp: true,
     Utilities: true,

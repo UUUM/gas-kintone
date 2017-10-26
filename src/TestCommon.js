@@ -31,3 +31,7 @@ TestCommon.prototype.getKintone = function getKintone() {
   this.kintone = new Kintone(this.subdomain, this.appId, this.apiToken, this.basicAuth);
   return this.kintone;
 };
+
+TestCommon.prototype.setup = function setup() {
+  return true;
+};
