@@ -13,6 +13,7 @@
     Client: true,
     Kintone: true,
     Obj: true,
+    Record: true,
     Response: true,
     ResponseError: true,
     TestCommon: true,
