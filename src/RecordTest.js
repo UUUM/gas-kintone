@@ -10,6 +10,15 @@ testRunner.functions.push(function (test, common) {
     assert.ok(Obj.isObject(record.get('文字列__1行')), 'returns an object');
   });
 
+  test('Record.getType()', function (assert) {
+    var record = common.getRecord();
+    assert.equal(record.getType('foo'), void 0, 'returns undefined if value was not set');
+    assert.equal(record.getType('文字列__1行'), 'SINGLE_LINE_TEXT', 'returns a valid value');
+
+    record.setValue('foo', 'bar');
+    assert.equal(record.getType('foo'), void 0, 'returns undefined if only value was set');
+  });
+
   test('Record.setRecord()', function (assert) {
     var record = new Record();
 

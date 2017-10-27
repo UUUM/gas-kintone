@@ -6,19 +6,50 @@ var Record = function Record(record) {
   }
 };
 
+Record.prototype.types = {
+  __ID__: '__ID__',
+  CHECK_BOX: 'CHECK_BOX',
+  CREATED_TIME: 'CREATED_TIME',
+  CREATOR: 'CREATOR',
+  DATE: 'DATE',
+  DATETIME: 'DATETIME',
+  DROP_DOWN: 'DROP_DOWN',
+  FILE: 'FILE',
+  LINK: 'LINK',
+  MULTI_LINE_TEXT: 'MULTI_LINE_TEXT',
+  MULTI_SELECT: 'MULTI_SELECT',
+  MODIFIER: 'MODIFIER',
+  NUMBER: 'NUMBER',
+  RECORD_NUMBER: 'RECORD_NUMBER',
+  RICH_TEXT: 'RICH_TEXT',
+  SINGLE_LINE_TEXT: 'SINGLE_LINE_TEXT',
+  SUBTABLE: 'SUBTABLE',
+  TIME: 'TIME',
+  UPDATED_TIME: 'UPDATED_TIME',
+  USER_SELECT: 'USER_SELECT'
+};
+
 Record.prototype.get = function get(key) {
-  if (this.record[key]) {
-    return this.record[key];
+  if (!this.record[key]) {
+    return void 0;
   }
-  return void 0;
+  return this.record[key];
 };
 
 Record.prototype.getType = function getType(key) {
-  return this.get(key).type;
+  var column = this.get(key);
+  if (!column) {
+    return void 0;
+  }
+  return column.type;
 };
 
 Record.prototype.getValue = function getValue(key) {
-  return this.get(key).value;
+  var column = this.get(key);
+  if (!column) {
+    return void 0;
+  }
+  return column.value;
 };
 
 Record.prototype.has = function has(key) {
@@ -38,34 +69,12 @@ Record.prototype.set = function set(key, type, value) {
 };
 
 Record.prototype.setType = function setType(key, type) {
-  if (!this.record[key]) {
-    this.record[key] = {};
+  if (!this.types.hasOwnProperty(type)) {
+    throw new Error('Kintone record column type was wrong');
   }
 
-  switch (type) {
-  case '__ID__':
-  case 'CHECK_BOX':
-  case 'CREATED_TIME':
-  case 'CREATOR':
-  case 'DATE':
-  case 'DATETIME':
-  case 'DROP_DOWN':
-  case 'FILE':
-  case 'LINK':
-  case 'MULTI_LINE_TEXT':
-  case 'MULTI_SELECT':
-  case 'MODIFIER':
-  case 'NUMBER':
-  case 'RECORD_NUMBER':
-  case 'RICH_TEXT':
-  case 'SINGLE_LINE_TEXT':
-  case 'SUBTABLE':
-  case 'TIME':
-  case 'UPDATED_TIME':
-  case 'USER_SELECT':
-    break;
-  default:
-    throw new Error('Kintone record column type was wrong');
+  if (!this.record[key]) {
+    this.record[key] = {};
   }
 
   this.record[key].type = type;
