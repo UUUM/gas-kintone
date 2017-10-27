@@ -56,6 +56,10 @@ Record.prototype.has = function has(key) {
   return this.record.hasOwnProperty(key) && this.record[key].hasOwnProperty('value');
 };
 
+Record.prototype.remove = function remove(key) {
+  delete this.record[key];
+};
+
 Record.prototype.set = function set(key, type, value) {
   if (type) {
     this.setType(type);

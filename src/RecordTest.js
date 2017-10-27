@@ -17,6 +17,17 @@ testRunner.functions.push(function (test, common) {
 
     record.setValue('foo', 'bar');
     assert.equal(record.getType('foo'), void 0, 'returns undefined if only value was set');
+    record.remove('foo');
+  });
+
+  test('Record.getValue()', function (assert) {
+    var record = common.getRecord();
+    assert.equal(record.getValue('foo'), void 0, 'returns undefined if value was not set');
+    assert.equal(record.getValue('文字列__1行'), 'テスト', 'returns a valid value');
+
+    record.setType('foo', 'SINGLE_LINE_TEXT');
+    assert.equal(record.getValue('foo'), void 0, 'returns undefined if only type was set');
+    record.remove('foo');
   });
 
   test('Record.setRecord()', function (assert) {
