@@ -62,11 +62,11 @@ Record.prototype.remove = function remove(key) {
 
 Record.prototype.set = function set(key, type, value) {
   if (type) {
-    this.setType(type);
+    this.setType(key, type);
   }
 
   if (value) {
-    this.setValue(value);
+    this.setValue(key, value);
   }
 
   return this;

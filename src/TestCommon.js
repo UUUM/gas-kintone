@@ -14,41 +14,8 @@ var TestCommon = function TestCommon() {
   }
 };
 
-TestCommon.prototype.getClient = function getClient() {
-  if (this.client) {
-    return this.client;
-  }
-
-  this.client = new Client(this.subdomain, this.appId, this.apiToken, this.basicAuth);
-  return this.client;
-};
-
-TestCommon.prototype.getErrorResponse = function getErrorResponse() {
-  if (this.errorResponse) {
-    return this.errorResponse;
-  }
-
-  var client = this.getClient();
-  var url = client.getApiUrl('record');
-  this.errorResponse = new Response(UrlFetchApp.fetch(url, client.option));
-  return this.errorResponse;
-};
-
-TestCommon.prototype.getKintone = function getKintone() {
-  if (this.kintone) {
-    return this.kintone;
-  }
-
-  this.kintone = new Kintone(this.subdomain, this.appId, this.apiToken, this.basicAuth);
-  return this.kintone;
-};
-
-TestCommon.prototype.getRecord = function getRecord() {
-  if (this.record) {
-    return this.record;
-  }
-
-  this.record = new Record({
+TestCommon.prototype.createRecord = function createRecord() {
+  return new Record({
     '文字列__1行': {
       'type': 'SINGLE_LINE_TEXT',
       'value': 'テスト'
@@ -186,7 +153,35 @@ TestCommon.prototype.getRecord = function getRecord() {
       }]
     }
   });
-  return this.record;
+};
+
+TestCommon.prototype.getClient = function getClient() {
+  if (this.client) {
+    return this.client;
+  }
+
+  this.client = new Client(this.subdomain, this.appId, this.apiToken, this.basicAuth);
+  return this.client;
+};
+
+TestCommon.prototype.getErrorResponse = function getErrorResponse() {
+  if (this.errorResponse) {
+    return this.errorResponse;
+  }
+
+  var client = this.getClient();
+  var url = client.getApiUrl('record');
+  this.errorResponse = new Response(UrlFetchApp.fetch(url, client.option));
+  return this.errorResponse;
+};
+
+TestCommon.prototype.getKintone = function getKintone() {
+  if (this.kintone) {
+    return this.kintone;
+  }
+
+  this.kintone = new Kintone(this.subdomain, this.appId, this.apiToken, this.basicAuth);
+  return this.kintone;
 };
 
 TestCommon.prototype.setup = function setup() {
