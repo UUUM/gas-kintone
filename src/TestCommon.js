@@ -155,6 +155,15 @@ TestCommon.prototype.createRecord = function createRecord() {
   });
 };
 
+TestCommon.prototype.getApi = function getApi() {
+  if (this.api) {
+    return this.api;
+  }
+
+  this.api = new Api(this.getClient());
+  return this.api;
+};
+
 TestCommon.prototype.getClient = function getClient() {
   if (this.client) {
     return this.client;

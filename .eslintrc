@@ -10,6 +10,7 @@
     GasTap: true,
 
     // Our classes
+    Api: true,
     Client: true,
     Kintone: true,
     Obj: true,
