@@ -8,6 +8,7 @@ var Record = function Record(record) {
 
 Record.prototype.types = {
   __ID__: '__ID__',
+  __REVISION__: '__REVISION__',
   CHECK_BOX: 'CHECK_BOX',
   CREATED_TIME: 'CREATED_TIME',
   CREATOR: 'CREATOR',
@@ -29,11 +30,50 @@ Record.prototype.types = {
   USER_SELECT: 'USER_SELECT'
 };
 
+Record.prototype.castValue = function castValue(column) {
+  switch (column.type) {
+  case '__ID__':
+  case '__REVISION__':
+  case 'RECORD_NUMBER':
+    if (!Obj.isNumber(column.value)) {
+      column.value = parseInt(column.value, 10);
+    }
+    break;
+
+  case 'DATE':
+  case 'DATETIME':
+  case 'CREATED_TIME':
+  case 'UPDATED_TIME':
+    if (!(column.value instanceof Date)) {
+      column.value = new Date(column.value);
+    }
+    break;
+
+  case 'NUMBER':
+    if (!Obj.isNumber(column.value)) {
+      column.value = parseFloat(column.value);
+    }
+    break;
+
+  default:
+    break;
+  }
+
+  return column.value;
+};
+
 Record.prototype.get = function get(key) {
-  if (!this.record[key]) {
+  var column = this.record[key];
+
+  if (!column) {
     return void 0;
   }
-  return this.record[key];
+
+  if (column.value) {
+    this.castValue(column);
+  }
+
+  return column;
 };
 
 Record.prototype.getType = function getType(key) {

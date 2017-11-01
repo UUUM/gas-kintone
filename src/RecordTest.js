@@ -22,8 +22,8 @@ testRunner.functions.push(function (test) {
     assert.equal(record.set('bar', null, 'baz'), record, 'returns itself');
     assert.deepEqual(record.get('bar'), {value: 'baz'}, 'returns a valid object');
 
-    assert.equal(record.set('baz', 'SINGLE_LINE_TEXT', 'foo'), record, 'returns itself');
-    assert.deepEqual(record.get('baz'), {type: 'SINGLE_LINE_TEXT', value: 'foo'}, 'returns a valid object');
+    assert.equal(record.set('baz', 'NUMBER', '20'), record, 'returns itself');
+    assert.deepEqual(record.get('baz'), {type: 'NUMBER', value: 20}, 'returns a valid object');
   });
 
   test('Record.getType(),setType()', function (assert) {
@@ -45,7 +45,7 @@ testRunner.functions.push(function (test) {
     assert.equal(record.getType('bar'), void 0, 'returns undefined if only value was set');
   });
 
-  test('Record.getValue()', function (assert) {
+  test('Record.getValue(),setValue()', function (assert) {
     var record = new Record();
 
     assert.equal(record.getValue('foo'), void 0, 'returns undefined if value was not set');
@@ -55,6 +55,10 @@ testRunner.functions.push(function (test) {
 
     record.setType('bar', 'SINGLE_LINE_TEXT');
     assert.equal(record.getValue('bar'), void 0, 'returns undefined if only type was set');
+
+    record.setType('baz', 'NUMBER');
+    record.setValue('baz', '20');
+    assert.equal(record.getValue('baz'), 20, 'returns a casted value');
   });
 
   test('Record.has(),remove()', function (assert) {
