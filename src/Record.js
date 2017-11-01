@@ -146,5 +146,26 @@ Record.prototype.setValue = function setValue(key, value) {
 };
 
 Record.prototype.toObject = function toObject() {
-  return this.record;
+  var object = {};
+
+  for (var key in this.record) {
+    if (!this.record.hasOwnProperty(key)) {
+      continue;
+    }
+
+    var column = this.get(key);
+    if (!column) {
+      continue;
+    }
+
+    object[key] = {};
+    if (column.type) {
+      object[key].type = column.type;
+    }
+    if (column.value) {
+      object[key].value = column.value;
+    }
+  }
+
+  return object;
 };

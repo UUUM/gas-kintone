@@ -100,7 +100,7 @@ testRunner.functions.push(function (test) {
 
     record.setType('foo', 'SINGLE_LINE_TEXT');
     record.setValue('bar', 'baz');
-    record.set('baz', 'SINGLE_LINE_TEXT', 'foo');
+    record.set('baz', 'NUMBER', '20');
     assert.deepEqual(
       record.toObject(),
       {
@@ -111,8 +111,8 @@ testRunner.functions.push(function (test) {
           value: 'baz'
         },
         baz: {
-          type: 'SINGLE_LINE_TEXT',
-          value: 'foo'
+          type: 'NUMBER',
+          value: 20
         }
       },
       'returns a valid object'
