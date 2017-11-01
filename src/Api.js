@@ -37,3 +37,27 @@ Api.prototype.formGet = function formGet() {
     return response.getContentObject().properties;
   });
 };
+
+Api.prototype.recordCreate = function recordCreate(record) {
+  return this.fetchPost('record', {record: record.toObject()}, function f(response) {
+    return parseInt(response.getContentObject().id, 10);
+  });
+};
+
+Api.prototype.recordDelete = function recordDelete(id) {
+  return this.fetchDelete('records', {ids: [id]}, function f() {
+    return true;
+  });
+};
+
+Api.prototype.recordGet = function recordGet(id) {
+  return this.fetchGet('record', {id: id}, function f(response) {
+    return new Record(response.getContentObject().record);
+  });
+};
+
+Api.prototype.recordUpdate = function recordUpdate(id, record) {
+  return this.fetchPut('record', {id: id, record: record.toObject()}, function f(response) {
+    return parseInt(response.getContentObject().revision, 10);
+  });
+};
