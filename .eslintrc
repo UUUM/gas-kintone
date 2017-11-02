@@ -15,6 +15,7 @@
     Kintone: true,
     Obj: true,
     Record: true,
+    Records: true,
     Response: true,
     ResponseError: true,
     TestCommon: true,
