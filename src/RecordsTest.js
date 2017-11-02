@@ -46,6 +46,29 @@ testRunner.functions.push(function (test) {
     records.push(new Record());
     assert.equal(records.getSize(), 2, 'returns an exact array size');
   });
+
+  test('Records.toArray()', function (assert) {
+    var records = new Records();
+
+    records.push((new Record()).set('foo', 'SINGLE_LINE_TEXT', 'bar'));
+    records.push((new Record()).set('bar', 'NUMBER', '20'));
+
+    assert.deepEqual(
+      records.toArray(),
+      [{
+        foo: {
+          type: 'SINGLE_LINE_TEXT',
+          value: 'bar'
+        }
+      }, {
+        bar: {
+          type: 'NUMBER',
+          value: 20
+        }
+      }],
+      'returns an exact array'
+    );
+  });
 });
 
 /* eslint func-names: ["error", "never"] */
